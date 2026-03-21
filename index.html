@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Special+Elite&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #000000;
@@ -22,18 +22,16 @@
             scroll-behavior: smooth;
             margin: 0;
             padding: 0;
-            /* Protect layout and text */
             user-select: none;
             -webkit-user-select: none;
         }
 
-        /* Narrative font - Smaller Typewriter Style */
         .radiohead-text {
-            font-family: 'Special Elite', system-ui;
             filter: blur(6px); 
             opacity: 0;
             transition: all 2.2s cubic-bezier(0.16, 1, 0.3, 1);
             letter-spacing: 0.02em;
+            font-weight: 400;
         }
 
         .visible .radiohead-text {
@@ -41,20 +39,18 @@
             opacity: 1;
         }
 
-        /* Title specific font with a persistent soft blur */
         .title-font {
-            font-family: 'Syncopate', sans-serif;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.4em;
             filter: blur(1.5px); 
             transition: filter 2s ease-out;
             position: relative;
+            font-weight: 800;
         }
         
         .visible .title-font {
             filter: blur(0.8px);
         }
 
-        /* Flare effect behind the title */
         .title-flare {
             position: absolute;
             top: 50%;
@@ -62,19 +58,16 @@
             transform: translate(-50%, -50%);
             width: 180%;
             height: 180%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
-            filter: blur(30px);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            filter: blur(40px);
             z-index: -1;
             pointer-events: none;
             opacity: 0;
-            transition: opacity 3s ease-in-out;
+            transition: opacity 4s ease-in-out;
         }
 
-        .visible .title-flare {
-            opacity: 1;
-        }
+        .visible .title-flare { opacity: 1; }
 
-        /* Gradient background with softer edges and backdrop blur */
         .text-box {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.96) 0%, rgba(0, 0, 0, 0.7) 100%);
             backdrop-filter: blur(15px);
@@ -86,12 +79,11 @@
             border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        /* Film Grain overlay */
         .grain {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Noise_Texture.png');
-            opacity: 0.06;
+            opacity: 0.05;
             pointer-events: none;
             z-index: 9999;
         }
@@ -108,19 +100,14 @@
 
         .bg-image {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             object-fit: cover;
             z-index: -1;
             filter: contrast(1.08) brightness(1.05);
             transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-            /* Prevent image selection/dragging */
             pointer-events: none;
         }
 
-        /* This layer acts as a guard/shield over the image */
         .image-shield {
             position: absolute;
             inset: 0;
@@ -145,316 +132,173 @@
             pointer-events: none;
         }
 
-        .reveal {
-            opacity: 0;
-            transition: opacity 1.5s ease;
-        }
+        .reveal { opacity: 0; transition: opacity 1.5s ease; }
+        .reveal.visible { opacity: 1; }
 
-        .reveal.visible {
-            opacity: 1;
+        #audio-trigger {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 0.6rem 1.4rem;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.5s ease;
         }
+        #audio-trigger:hover { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.4); }
 
         ::-webkit-scrollbar { width: 0px; }
     </style>
 </head>
-<body oncontextmenu="return false;"> <!-- Global right-click disable -->
+<body oncontextmenu="return false;">
     <div class="grain"></div>
+    <button id="audio-trigger" onclick="initAudio()">Listen to the Quiet</button>
 
-    <!-- 01: TITLE -->
     <section class="reveal">
         <div class="image-shield"></div>
         <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850656/gloom-33_jc9kfj.jpg" class="bg-image" alt="">
         <div class="vignette"></div>
         <div class="floating-lyrics text-center">
             <div class="radiohead-text inline-block">
-                <h1 class="text-4xl md:text-7xl font-bold title-font">
+                <h1 class="text-4xl md:text-7xl title-font">
                     <div class="title-flare"></div>
                     <span class="text-box uppercase px-12 py-6">GLOOM</span>
                 </h1>
-                
-                <p class="mt-12 text-xs opacity-50 font-sans">
+                <p class="mt-12 text-xs opacity-50">
                     <span class="text-box py-1">A Visual Essay by Yevgeniy Babichenko</span>
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- 02 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850655/gloom-32_nk06l1.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics">
-            <p class="radiohead-text text-sm md:text-base">
-                <span class="text-box">it starts as a low frequency vibrating behind the eyes.</span>
-            </p>
-        </div>
-    </section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850655/gloom-32_nk06l1.jpg" class="bg-image"><div class="floating-lyrics"><p class="radiohead-text text-sm"><span class="text-box">it starts as a low frequency vibrating behind the eyes.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850653/gloom-31_wccnmg.jpg" class="bg-image"><div class="floating-lyrics text-right"><p class="radiohead-text text-sm"><span class="text-box">seeing the world through a lens i can't wipe clean.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850652/gloom-30_je4a6c.jpg" class="bg-image"><div class="floating-lyrics"><p class="radiohead-text text-sm font-bold"><span class="text-box">a thousand shoulders navigating a very small room.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850651/gloom-29_sztlbf.jpg" class="bg-image"><div class="floating-lyrics text-center"><p class="radiohead-text text-sm italic"><span class="text-box">the lights are humming too loud to hear myself think.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850650/gloom-28_xi8apz.jpg" class="bg-image"><div class="floating-lyrics"><p class="radiohead-text text-sm pl-20"><span class="text-box">feeling the grit of the air against my palms.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850649/gloom-27_hfk6gv.jpg" class="bg-image"><div class="floating-lyrics text-right"><p class="radiohead-text text-sm"><span class="text-box">searching for my reflection in a window pane.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850647/gloom-26_zzcatb.jpg" class="bg-image"><div class="floating-lyrics"><p class="radiohead-text text-sm"><span class="text-box">waiting for the metal doors to slide shut.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850642/gloom-23_kbsdpn.jpg" class="bg-image"><div class="floating-lyrics text-center"><p class="radiohead-text text-sm italic"><span class="text-box">sitting perfectly still so i don't break the silence.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850637/gloom-19_l9y79t.jpg" class="bg-image"><div class="floating-lyrics"><p class="radiohead-text text-sm pl-10"><span class="text-box">keep walking until the floor feels solid again.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850636/gloom-17_n3pze8.jpg" class="bg-image"><div class="floating-lyrics"><p class="radiohead-text text-sm"><span class="text-box">my fingers are trembling in the glare of the street.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850636/gloom-18_kml15l.jpg" class="bg-image"><div class="floating-lyrics text-right"><p class="radiohead-text text-sm"><span class="text-box">everything is turning into a streak of grey.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850634/gloom-16_pottno.jpg" class="bg-image"><div class="floating-lyrics"><p class="radiohead-text text-xs md:text-sm opacity-80"><span class="text-box">another door leading to an identical hallway.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850631/gloom-14_m3sua8.jpg" class="bg-image"><div class="floating-lyrics text-center"><p class="radiohead-text text-2xl font-extrabold"><span class="text-box uppercase">EXIT ONLY</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850629/gloom-12_yfzy2g.jpg" class="bg-image"><div class="floating-lyrics"><p class="radiohead-text text-xs opacity-70"><span class="text-box">reading the signs but forgetting the destination.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850627/gloom-10_pml6tj.jpg" class="bg-image"><div class="floating-lyrics text-right"><p class="radiohead-text text-sm italic"><span class="text-box">swallow the noise before it swallows you.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850625/gloom-09_igsmnt.jpg" class="bg-image"><div class="floating-lyrics"><p class="radiohead-text text-sm font-light"><span class="text-box">white noise everywhere i look.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850624/gloom-08_yd60df.jpg" class="bg-image"><div class="floating-lyrics text-center"><p class="radiohead-text text-sm italic opacity-60"><span class="text-box">breathing into a cardboard box in my mind.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850622/gloom-07_cux8rn.jpg" class="bg-image"><div class="floating-lyrics"><p class="radiohead-text text-sm"><span class="text-box">the vertigo of a conversation i can't finish.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850621/gloom-06_ulu5ld.jpg" class="bg-image"><div class="floating-lyrics text-right"><p class="radiohead-text text-xs opacity-80"><span class="text-box">counting the footsteps until i'm alone again.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850620/gloom-05_t9hleg.jpg" class="bg-image"><div class="floating-lyrics"><p class="radiohead-text text-sm italic"><span class="text-box">unplug the room and leave the lights on.</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850619/gloom-03_eohzym.jpg" class="bg-image"><div class="floating-lyrics text-center"><p class="radiohead-text text-3xl font-extrabold opacity-40"><span class="text-box italic">SHHHH</span></p></div></section>
+    <section class="reveal"><div class="image-shield"></div><img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850618/gloom-02_dbtlii.jpg" class="bg-image"><div class="floating-lyrics"><p class="radiohead-text text-sm"><span class="text-box">recovery is a silent room with no windows.</span></p></div></section>
 
-    <!-- 03 -->
     <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850653/gloom-31_wccnmg.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics text-right">
-            <p class="radiohead-text text-sm md:text-base">
-                <span class="text-box">seeing the world through a lens i can't wipe clean.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 04 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850652/gloom-30_je4a6c.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics">
-            <p class="radiohead-text text-sm md:text-base font-bold">
-                <span class="text-box">a thousand shoulders navigating a very small room.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 05 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850651/gloom-29_sztlbf.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics text-center">
-            <p class="radiohead-text text-sm italic">
-                <span class="text-box">the lights are humming too loud to hear myself think.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 06 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850650/gloom-28_xi8apz.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics">
-            <p class="radiohead-text text-sm pl-20">
-                <span class="text-box">feeling the grit of the air against my palms.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 07 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850649/gloom-27_hfk6gv.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics text-right">
-            <p class="radiohead-text text-sm">
-                <span class="text-box">searching for my reflection in a window pane.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 08 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850647/gloom-26_zzcatb.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics">
-            <p class="radiohead-text text-sm">
-                <span class="text-box">waiting for the metal doors to slide shut.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 09 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850642/gloom-23_kbsdpn.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics text-center">
-            <p class="radiohead-text text-sm italic">
-                <span class="text-box">sitting perfectly still so i don't break the silence.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 10 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850637/gloom-19_l9y79t.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics">
-            <p class="radiohead-text text-sm pl-10">
-                <span class="text-box">keep walking until the floor feels solid again.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 11 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850636/gloom-17_n3pze8.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics">
-            <p class="radiohead-text text-sm">
-                <span class="text-box">my fingers are trembling in the glare of the street.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 12 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850636/gloom-18_kml15l.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics text-right">
-            <p class="radiohead-text text-sm">
-                <span class="text-box">everything is turning into a streak of grey.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 13 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850634/gloom-16_pottno.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics">
-            <p class="radiohead-text text-xs md:text-sm opacity-80">
-                <span class="text-box">another door leading to an identical hallway.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 14 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850631/gloom-14_m3sua8.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics text-center">
-            <p class="radiohead-text text-2xl font-extrabold">
-                <span class="text-box uppercase">EXIT ONLY</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 15 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850629/gloom-12_yfzy2g.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics">
-            <p class="radiohead-text text-xs opacity-70">
-                <span class="text-box">reading the signs but forgetting the destination.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 16 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850627/gloom-10_pml6tj.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics text-right">
-            <p class="radiohead-text text-sm italic">
-                <span class="text-box">swallow the noise before it swallows you.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 17 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850625/gloom-09_igsmnt.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics">
-            <p class="radiohead-text text-sm font-light">
-                <span class="text-box">white noise everywhere i look.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 18 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850624/gloom-08_yd60df.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics text-center">
-            <p class="radiohead-text text-sm italic opacity-60">
-                <span class="text-box">breathing into a cardboard box in my mind.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 19 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850622/gloom-07_cux8rn.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics">
-            <p class="radiohead-text text-sm">
-                <span class="text-box">the vertigo of a conversation i can't finish.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 20 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850621/gloom-06_ulu5ld.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics text-right">
-            <p class="radiohead-text text-xs opacity-80">
-                <span class="text-box">counting the footsteps until i'm alone again.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 21 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850620/gloom-05_t9hleg.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics">
-            <p class="radiohead-text text-sm italic">
-                <span class="text-box">unplug the room and leave the lights on.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 22 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850619/gloom-03_eohzym.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics text-center">
-            <p class="radiohead-text text-3xl font-extrabold opacity-40">
-                <span class="text-box italic">SHHHH</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 23 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
-        <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850618/gloom-02_dbtlii.jpg" class="bg-image" alt="">
-        <div class="floating-lyrics">
-            <p class="radiohead-text text-sm">
-                <span class="text-box">recovery is a silent room with no windows.</span>
-            </p>
-        </div>
-    </section>
-
-    <!-- 24 -->
-    <section class="reveal">
-        <div class="image-shield"></div>
         <img src="https://res.cloudinary.com/dytzcf9mr/image/upload/v1773850618/gloom-01_u1nq2c.jpg" class="bg-image" alt="">
         <div class="vignette"></div>
         <div class="floating-lyrics text-center">
-            <h2 class="radiohead-text text-xl italic mb-6">
-                <span class="text-box">the quiet is finally loud enough.</span>
-            </h2>
+            <h2 class="radiohead-text text-xl italic mb-6"><span class="text-box">the quiet is finally loud enough.</span></h2>
             <div class="w-12 h-[1px] bg-white mx-auto opacity-30"></div>
-            <p class="mt-8 text-[9px] uppercase tracking-[1em] opacity-40 font-bold font-sans">
-                <span class="text-box">Gloom Photography &bull; Yevgeniy Babichenko</span>
-            </p>
+            <p class="mt-8 text-[9px] uppercase tracking-[1em] opacity-40 font-bold"><span class="text-box">Gloom Photography &bull; Yevgeniy Babichenko</span></p>
         </div>
     </section>
 
     <script>
-        const observerOptions = {
-            threshold: 0.25
-        };
+        /* --- GENERATIVE SOLO VIOLIN ENGINE --- */
+        let audioCtx;
+        let isStarted = false;
 
+        function initAudio() {
+            if (isStarted) return;
+            isStarted = true;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            document.getElementById('audio-trigger').style.opacity = '0';
+            setTimeout(() => document.getElementById('audio-trigger').remove(), 1000);
+
+            const masterGain = audioCtx.createGain();
+            masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+            masterGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 4);
+            masterGain.connect(audioCtx.destination);
+
+            // Resonant Hall Reverb
+            const reverb = audioCtx.createDelay(1.0);
+            reverb.delayTime.setValueAtTime(0.6, audioCtx.currentTime);
+            const fb = audioCtx.createGain();
+            fb.gain.setValueAtTime(0.4, audioCtx.currentTime);
+            reverb.connect(fb); fb.connect(reverb);
+            fb.connect(masterGain);
+
+            const playNote = () => {
+                // D-Minor Melancholy notes
+                const notes = [146.83, 174.61, 220.00, 261.63, 293.66, 311.13]; 
+                const freq = notes[Math.floor(Math.random() * notes.length)];
+                
+                // Violin is made of a primary sawtooth and a sub-harmonic triangle
+                const osc = audioCtx.createOscillator();
+                const sub = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                const filter = audioCtx.createBiquadFilter();
+                
+                // Vibrato (The human hand)
+                const vibrato = audioCtx.createOscillator();
+                const vibratoGain = audioCtx.createGain();
+                vibrato.frequency.setValueAtTime(4.5 + Math.random(), audioCtx.currentTime);
+                vibratoGain.gain.setValueAtTime(1.5, audioCtx.currentTime);
+                vibrato.connect(vibratoGain);
+                vibratoGain.connect(osc.frequency);
+                vibratoGain.connect(sub.frequency);
+                vibrato.start();
+
+                osc.type = 'sawtooth';
+                sub.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                sub.frequency.setValueAtTime(freq / 2, audioCtx.currentTime);
+
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(400, audioCtx.currentTime);
+                filter.Q.setValueAtTime(2, audioCtx.currentTime);
+
+                // Bowing Swell (Volume movement)
+                const now = audioCtx.currentTime;
+                const duration = 3 + Math.random() * 4;
+                g.gain.setValueAtTime(0, now);
+                g.gain.linearRampToValueAtTime(0.08, now + duration * 0.3); // Bow press
+                g.gain.linearRampToValueAtTime(0, now + duration); // Bow lift
+
+                osc.connect(filter);
+                sub.connect(filter);
+                filter.connect(g);
+                g.connect(masterGain);
+                g.connect(reverb);
+
+                osc.start(now);
+                sub.start(now);
+                osc.stop(now + duration);
+                sub.stop(now + duration);
+
+                // Timing between notes (Breathes between phrases)
+                setTimeout(playNote, (duration * 0.8) * 1000);
+            };
+
+            playNote();
+        }
+
+        /* --- VISUAL INTERACTION LOGIC --- */
+        const observerOptions = { threshold: 0.25 };
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
         }, observerOptions);
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Smooth Parallax movement
         window.addEventListener('scroll', () => {
             const images = document.querySelectorAll('.bg-image');
             images.forEach((img) => {
@@ -466,12 +310,9 @@
                 }
             });
         });
-
-        // Prevention of dragging
-        document.addEventListener('dragstart', (e) => {
-            if (e.target.tagName === 'IMG') e.preventDefault();
-        });
+        document.addEventListener('dragstart', (e) => { if (e.target.tagName === 'IMG') e.preventDefault(); });
     </script>
 </body>
 </html>
+
 
